@@ -9,16 +9,20 @@ if [ "$(pidof sessiond)" = "" ]; then
   exit 1
 fi
 
+if [ "$(pidof exim)" = "" ]; then
+  echo exim is not running
+  exit 1
+fi
+
 sudo rm -f /tmp/mailbot.boxes/*
 sudo rm -f /tmp/webdriver.*
 sudo rm -f /tmp/sessdb.*
 sudo rm -f /tmp/session.test*
 
-cd $GOPATH/src/github.com/Grant-Murray/webdriver/session
-go test register_test.go verifyemail_test.go login_test.go -v 2>&1 | grep -v '^.selenium] '
+cd $GOPATH/src/github.com/Grant-Murray/webdriver/plog
+go test register_test.go verifyemail_test.go login_test.go resetpw_test.go -v 2>&1 | grep -v '^.selenium] '
 
 PSQL="psql --username=postgres --dbname=sessdb"
-$PSQL -c "select * from session.log" > /tmp/webdriver.db.log
 $PSQL -c 'select * from session.user' --expanded > /tmp/webdriver.db.user
 $PSQL -c 'select * from session.session' --expanded > /tmp/webdriver.db.session
 
