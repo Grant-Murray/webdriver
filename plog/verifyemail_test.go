@@ -48,7 +48,7 @@ func doVerifyCase(t *testing.T, cur vCase) {
 
 // SlurpEmail slurps the email file for EmailAddr and returns it as a string, the email file is deleted as part of the process.
 func SlurpEmail(EmailAddr string, t *testing.T) string {
-  mailFile := "/tmp/mailbot.boxes/" + EmailAddr[:strings.Index(EmailAddr, `@`)]
+  mailFile := "/tmp/mailbot.boxes/" + strings.ToLower(EmailAddr[:strings.Index(EmailAddr, `@`)])
   var emailB []byte
   var err error
 
@@ -75,30 +75,6 @@ func SlurpEmail(EmailAddr string, t *testing.T) string {
 }
 
 func VerifyEmailAddressFor(expectedAddr string, t *testing.T) {
-
-  // retrieve the email
-  mailFile := "/tmp/mailbot.boxes/" + expectedAddr[:strings.Index(expectedAddr, `@`)]
-  var emailB []byte
-  var err error
-
-  for i := 0; i < 5; i++ {
-    emailB, err = ioutil.ReadFile(mailFile)
-    if err == nil {
-      break
-    } else {
-
-      if i == 4 {
-        t.Fatalf("Unable to read the verification email in %s got err %s", mailFile, err)
-      } else {
-        t.Logf("Waiting for email to show up in %s (%s)", mailFile, err)
-      }
-    }
-  }
-
-  err = os.Remove(mailFile)
-  if err != nil {
-    t.Fatalf("Error attempting to remove %s: %s", mailFile, err)
-  }
 
   email := SlurpEmail(expectedAddr, t)
 

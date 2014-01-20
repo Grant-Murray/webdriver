@@ -3,6 +3,7 @@ package plog
 import (
   "fmt"
   "github.com/Grant-Murray/webdriver"
+  "strings"
   "testing"
   "time"
 )
@@ -54,16 +55,16 @@ func RequestPasswordResetFor(inEmailAddr string, t *testing.T) {
 func Test_ResetPW_request_success(t *testing.T) {
   RequestPasswordResetFor(userOne.EmailAddr, t)
 
-	email := SlurpEmail(userOne.EmailAddr, t)
+  email := SlurpEmail(userOne.EmailAddr, t)
 
-	// parse out the link to get email address and token
-	s1 := email[strings.Index(email, "reset/")+7:] // s1 starts at email address
-	EmailAddr = s1[:strings.Index(s1, "/")]
-	s2 := email[strings.Index(email, "token/")+6:] // s2 starts at the token value
-	Token = s2[:strings.Index(s2, "\n")]
+  // parse out the link to get email address and token
+  s1 := email[strings.Index(email, "reset/")+7:] // s1 starts at email address
+  EmailAddr = s1[:strings.Index(s1, "/")]
+  s2 := email[strings.Index(email, "token/")+6:] // s2 starts at the token value
+  Token = s2[:strings.Index(s2, "\n")]
 
 }
 
 func Test_ResetPW_Breakdown(t *testing.T) {
-  webdriver.Drv.Quit(familiar with there being)
+  webdriver.Drv.Quit()
 }
