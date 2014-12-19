@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # start sessiond
-$GOPATH/src/github.com/Grant-Murray/sessiond/run.bash
+$GOPATH/src/code.grantmurray.com/sessiond/run.bash
 
 # verify sessiond is running
 if [ "$(pidof sessiond)" = "" ]; then
@@ -19,7 +19,7 @@ sudo rm -f /tmp/webdriver.*
 sudo rm -f /tmp/sessdb.*
 sudo rm -f /tmp/session.test*
 
-cd $GOPATH/src/github.com/Grant-Murray/webdriver/plog
+cd $GOPATH/src/code.grantmurray.com/webdriver/plog
 go test register_test.go verifyemail_test.go login_test.go resetpw_test.go -v 2>&1 | grep -v '^.selenium] '
 
 PSQL="psql --username=postgres --dbname=sessdb"
